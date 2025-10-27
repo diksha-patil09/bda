@@ -1,0 +1,29 @@
+# Simple FM algorithm with small numbers
+class FM:
+    def _init_(self, m=100):  # small modulus, 2-digit hash
+        self.max_zero = 0
+        self.m = m
+
+    def _hash(self, x):
+        h = (x * 7 + 3) % self.m  # small hash
+        b = bin(h)[2:]            # binary
+        zeros = len(b) - len(b.rstrip('0'))  # trailing zeros
+        return h, b, zeros
+
+    def add(self, x):
+        h, b, zeros = self._hash(x)
+        self.max_zero = max(self.max_zero, zeros)
+        print(f"Element={x}, Hash={h}, Binary={b}, zeros={zeros}, 2^{zeros}={2**zeros}")
+
+    def estimate(self):
+        return 2**self.max_zero
+
+# ---- Demo ----
+fm = FM()
+stream = [1, 2, 3, 4,5,6,7,8,9]  # small stream, low values
+print("Stream:", stream)
+
+for x in stream:
+    fm.add(x)
+
+print("Estimated distinct count ≈", fm.estimate())

@@ -1,0 +1,28 @@
+import java.io.*;
+import java.util.*;
+
+public class WordCountLocal {
+    public static void main(String[] args) throws IOException {
+        Map<String, Integer> map = new HashMap<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter text (type 'END' to stop):");
+
+        while (true) {
+            String line = sc.nextLine();
+            if (line.equalsIgnoreCase("END")) break;
+            for (String w : line.toLowerCase().split("\\W+"))
+                if (!w.isEmpty()) map.put(w, map.getOrDefault(w, 0) + 1);
+        }
+        sc.close();
+
+        // Print to console
+        map.forEach((k, v) -> System.out.println(k + " : " + v));
+
+        // Save to output.txt in home folder
+        try (PrintWriter pw = new PrintWriter(System.getProperty("user.home") + File.separator + "output.txt")) {
+            map.forEach((k, v) -> pw.println(k + " : " + v));
+        }
+
+        System.out.println("Done! Check output.txt in your home folder.");
+    }
+}

@@ -1,0 +1,22 @@
+Bar chart 
+
+x <- c(3,5,2,8)
+names(x) <- c("A","B","C","D")
+barplot(x, col="skyblue", main="Bar Chart")
+
+Histogram
+
+data <- c(1,2,2,3,3,3,4,4,5)
+hist(data, col="lightgreen", main="Histogram", xlab="Values", ylab="Frequency")
+
+Scatter plot 
+
+x <- c(1,2,3,4,5)
+y <- c(2,4,1,3,5)
+plot(x, y, col="red", pch=19, main="Scatter Plot", xlab="X", ylab="Y")
+
+Piechart
+
+slices <- c(10,20,30,40)
+labels <- c("A","B","C","D")
+pie(slices, labels=labels, col=rainbow(length(slices)), main="Pie Chart")

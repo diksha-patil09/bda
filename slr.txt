@@ -1,0 +1,6 @@
+x <- c(1,2,3,4,5); y <- c(2,4,5,4,5)
+b <- sum((x-mean(x))*(y-mean(y))) / sum((x-mean(x))^2)
+a <- mean(y) - b*mean(x)
+cat("Linear Regression: y =", round(a,2), "+", round(b,2), "* x\n")
+plot(x, y, pch=19, col="blue", main="Simple Linear Regression", xlab="X", ylab="Y")
+abline(a,b, col="red", lwd=2)

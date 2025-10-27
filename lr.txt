@@ -1,0 +1,9 @@
+sigmoid <- function(z) 1/(1+exp(-z))
+x <- c(1,2,3,4,5); y <- c(0,0,0,1,1)
+a <- 0; b <- 0; lr <- 0.1
+for(i in 1:1000){ y_pred <- sigmoid(a + b*x); a <- a + lr*sum(y - y_pred); b <- b + lr*sum((y - y_pred)*x) }
+cat("Logistic Regression: logit(y) =", round(a,2), "+", round(b,2), "* x\n")
+cat("Predicted probabilities:", round(sigmoid(a + b*x),2), "\n")
+plot(x, y, pch=19, col="blue", main="Logistic Regression", xlab="X", ylab="Probability")
+curve(sigmoid(a + b*x), add=TRUE, col="red", lwd=2)
+

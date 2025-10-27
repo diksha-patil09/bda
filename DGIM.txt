@@ -1,0 +1,36 @@
+class DGIM:
+    def _init_(self, w):
+        self.w = w          # Window size
+        self.b = []         # List of buckets (time, size)
+        self.t = 0          # Current timestamp
+
+    def add(self, bit):
+        self.t += 1
+        # Remove buckets outside window
+        self.b = [(t, s) for t, s in self.b if t > self.t - self.w]
+        if bit == 1:
+            self.b.insert(0, (self.t, 1))  # New bucket of size 1
+            self._merge()
+        # Print current status
+        print(f"t={self.t}, bit={bit}, Buckets={[f'2^{int(math.log2(s))}' for _, s in self.b]}")
+
+    def _merge(self):
+        i = 0
+        while i < len(self.b) - 2:
+            if self.b[i][1] == self.b[i+1][1] == self.b[i+2][1]:
+                # Merge last two of three equal-sized buckets
+                self.b[i+1] = (self.b[i+1][0], self.b[i+1][1]*2)
+                del self.b[i+2]
+            else:
+                i += 1
+
+    def estimate(self):
+        # Sum all but last bucket fully; last bucket counted as half
+        return sum(s if i < len(self.b)-1 else s//2 for i, (_, s) in enumerate(self.b))
+
+# ---- Run Example ----
+d = DGIM(10)
+for bit in [1,0,1,1,0,1,0,1,1,1]:
+    d.add(bit)
+
+print("Approx count of 1's in last 10 bits:", d.estimate())

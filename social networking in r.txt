@@ -1,0 +1,22 @@
+# Define nodes and positions
+nodes <- c("Alice","Bob","Carol","David","Eve")
+x <- c(1,2,2,3,4)
+y <- c(3,4,2,3,1)
+
+# Define edges (connections)
+edges <- matrix(c("Alice","Bob",
+                  "Bob","Carol",
+                  "Alice","Carol",
+                  "Carol","David",
+                  "David","Eve"), ncol=2, byrow=TRUE)
+
+# Plot nodes
+plot(x, y, type="n", xlab="", ylab="", axes=FALSE, main="Social Network")
+text(x, y, labels=nodes, cex=1.2, col="blue")
+
+# Draw edges
+for(i in 1:nrow(edges)) {
+  from <- which(nodes==edges[i,1])
+  to <- which(nodes==edges[i,2])
+  segments(x[from], y[from], x[to], y[to], lwd=2)
+}
