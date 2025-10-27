@@ -1,0 +1,80 @@
+
+R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(ggplot2)
+> price <- c(8000,15000,11000,9000,14500,10000,8500)
+> sq_foot <- c(1000,9000,7900,1500,8700,7900,1500)
+> bedrooms <- c(1,4,4,2,3,2,4)
+> house_price <- data.frame(price,sq_foot,bedrooms)
+> print(house_price)
+  price sq_foot bedrooms
+1  8000    1000        1
+2 15000    9000        4
+3 11000    7900        4
+4  9000    1500        2
+5 14500    8700        3
+6 10000    7900        2
+7  8500    1500        4
+> lm_model <- lm(price~sq_foot,data=house_price)
+> plot(house_price$sq_foot,house_price$price,xlab="sq_foot",ylab="price",col="blue",pch=16)
+> abline(lm_model,col = "red",lwd=3)
+
+
+
+
+
+> multi_model <- lm(price~sq_foot+bedrooms,data=house_price)
+> install.packages("scatterplot3d")
+Installing package into ‘C:/Users/USER/AppData/Local/R/win-library/4.5’
+(as ‘lib’ is unspecified)
+--- Please select a CRAN mirror for use in this session ---
+trying URL 'https://cran.icts.res.in/bin/windows/contrib/4.5/scatterplot3d_0.3-44.zip'
+Content type 'application/zip' length 352607 bytes (344 KB)
+downloaded 344 KB
+
+package ‘scatterplot3d’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\USER\AppData\Local\Temp\Rtmp2FqQNq\downloaded_packages
+> library(scatterplot3d)
+> s3d <- scatterplot3d(x = house_price$sq_foot,
++                      y = house_price$bedrooms,
++                      z = house_price$price,
++                      color = "blue",
++                      pch = 16,
++                      xlab = "sq_foot",
++                      ylab = "bedrooms",
++                      zlab = "price")
+> s3d$plane3d(multi_model,col="red")
+
+
+
+
+
+
+
+ 
+>  house_price$category <- ifelse(house_price$price > 10500,1,0)
+> 
+> log_model <- glm(category ~ sq_foot, data = house_price, family = binomial)
+> plot( house_price$sq_foot, house_price$category, xlab="sq",ylab="category",pch=16,col="blue")
+> curve(predict(log_model, data.frame(sq_foot = x), type = "response"), add = TRUE, col = "red", lwd = 2)
+> 
