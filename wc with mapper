@@ -1,0 +1,30 @@
+from collections import defaultdict
+
+text="""HDFS is a storage unit of Hadoop Mapreduce is a processing tool of Hadoop"""
+
+def mapper(text):
+    mapped=[]
+    for line in text.strip().split("\n"):
+        for word in line.strip().split():
+            mapped.append((word.lower(),1))
+    return mapped
+
+def shuffle_and_sort(mapped):
+    grouped=defaultdict(list)
+    for word,count in mapped:
+        grouped[word].append(count)
+    return grouped
+
+def reducer(grouped):
+    reduced=[]
+    for word,counts in grouped.items():
+        reduced.append((word,sum(counts)))
+    return reduced
+
+mapped_data=mapper(text)
+grouped_data=shuffle_and_sort(mapped_data)
+reduced_data=reducer(grouped_data)
+
+print("Word count output is:\n")
+for word,count in sorted(reduced_data.items()):
+    print(f"{word}\t{count}")
